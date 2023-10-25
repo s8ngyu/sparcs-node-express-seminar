@@ -3,6 +3,7 @@ import axios from "axios";
 import { SAPIBase } from "../tools/api";
 import Header from "../components/header";
 import "./css/feed.css";
+import FeedView from "./feed_components/FeedView";
 
 interface IAPIResponse  { _id: string, title: string, content: string, itemViewCnt: number }
 
@@ -61,13 +62,10 @@ const FeedPage = (props: {}) => {
                onChange={ (e) => setSSearchItem( e.target.value ) }
         />
       </div>
+      <p>Click title or content to edit.</p>
       <div className={"feed-list"}>
         { LAPIResponse.map( (val, i) =>
-          <div key={i} className={"feed-item"}>
-            <div className={"delete-item"} onClick={(e) => deletePost(`${val._id}`)}>ⓧ</div>
-            <h3 className={"feed-title"}>{ val.title }</h3>
-            <p className={"feed-body"}>{ val.content }</p>
-          </div>
+          <FeedView key={i} val={val} deletePost={deletePost}/>
         ) }
         <div className={"feed-item-add"}>
           Title: <input type={"text"} value={SNewPostTitle} onChange={(e) => setSNewPostTitle(e.target.value)}/>
